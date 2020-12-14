@@ -1,10 +1,14 @@
 package com.ahorcado.services;
 
 
+import org.springframework.stereotype.Service;
+
 import com.ahorcado.modelo.Jugador;
 import com.ahorcado.modelo.Partida;
 
+@Service
 public class AhorcadoService {
+	
 	Partida partida;
 	Jugador jugador;
 	
@@ -19,7 +23,7 @@ public class AhorcadoService {
 	/* Introducimos una letra y si la palabra la contiene cambiamos la palbra con guiones a una con las letras descubiertas, si no aumentamos fallos */
 	public StringBuilder adivinarLetra(char introduccion) {
 		if(contieneLetra(introduccion, partida.getPalabraSecreta())) {
-			partida.setPalabraGuiones(exponGuiones(introduccion, partida.getPalabraSecreta()));
+			partida.setPalabraGuiones(exponGuiones(introduccion, partida.getPalabraSecreta(), partida.getPalabraGuiones()));
 			jugador.setIntentos(jugador.getIntentos()+1);
 		}else {
 			jugador.setIntentosFallidos(jugador.getIntentosFallidos()+1);
@@ -38,6 +42,10 @@ public class AhorcadoService {
 		return ganado;
 	}
 	
+	
+	public StringBuilder damePalabra() {
+		return partida.getPalabraGuiones();
+	}
 	//Otro service ???
 	
 	/* para iniciar la partida con una palabra con guiones para adivinar */
@@ -62,17 +70,16 @@ public class AhorcadoService {
 	}
 	
 	/* sacamos una palabra con guiones nueva con las letras descubiertas que acertemos */
-	private StringBuilder exponGuiones(char letra, String palabra){
-		StringBuilder nueva = new StringBuilder("");
+	private StringBuilder exponGuiones(char letr, String palabra, StringBuilder palabraguion){
+		String letra = "" + letr;
 		char[] arrayletras = palabra.toCharArray();
 		for(int i=0 ; i<palabra.length(); i++) {
-			if(letra == arrayletras[i]) {
-				nueva.append(letra);
+			if(letr == arrayletras[i]) {
+				palabraguion.replace(i, i+1, letra);
 			}else {
-				nueva.append("_");
 			}
 		}
-		return nueva;
+		return palabraguion;
 	}
 	
 	/* Si las palabras son iguales devolvemos true*/
