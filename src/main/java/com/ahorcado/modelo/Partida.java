@@ -7,14 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
-
+@Entity
 public class Partida {
 	private static final int MAX_ERRORES = 5;
 	
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idPartida;
 	
+	@OneToMany(mappedBy = "partida")
 	private List<Jugador> jugadores;
 	private String palabraSecreta;
 	private StringBuilder palabraGuiones;

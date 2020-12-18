@@ -4,17 +4,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
-
+@Entity
 public class Jugador {
-
+	
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idJugador;
 	
 	private String name;
 	private int intentos;
 	private int intentosFallidos;
+	
+	@ManyToOne
+	@JoinColumn(name = "idPartida", nullable = true)
+	@JsonIgnore
+	private Partida partida;
 	
 	public Jugador() {
 		super();
